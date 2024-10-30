@@ -4,6 +4,7 @@ from models import db, Users, UserPost, CommentPost
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 import base64
+import os
 
 app = Flask(__name__)
 app.secret_key = "justForTest"
@@ -188,4 +189,7 @@ def logout():
     return redirect(url_for("login"))
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    if os.environ.get('FLASK_ENV') == 'production':
+        app.run(host='0.0.0.0', port=5000)
+    else:
+        app.run(debug=True)
