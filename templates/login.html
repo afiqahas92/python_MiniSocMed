@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Login/Sign Up Page{% endblock %}
+
+{% block content %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for msg in messages %}
+<p>{{ msg }}</p>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+<div class="d-flex align-items-center" style="height: 100vh;">
+    <!-- Image Section -->
+    <div class="col-md-6 d-none d-md-block"
+        style="background-image: url('{{ url_for('static', filename='images/arbatravel.jpg') }}'); background-size: cover; background-position: center; height: 100vh;">
+    </div>
+
+    <!-- Form Section -->
+    <div class="col-md-6 d-flex justify-content-center align-items-center">
+        <div class="container p-4">
+            <!-- Tabs for Login and Sign Up -->
+            <ul class="nav nav-tabs mb-4" id="formTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login"
+                        type="button" role="tab" aria-controls="login" aria-selected="true">Login</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="signup-tab" data-bs-toggle="tab" data-bs-target="#signup" type="button"
+                        role="tab" aria-controls="signup" aria-selected="false">Sign Up</button>
+                </li>
+            </ul>
+
+            <!-- Tab Content -->
+            <div class="tab-content" id="formTabsContent">
+                <!-- Login Form -->
+                <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
+                    <form method="post" style="max-width: 400px; width: 100%;">
+                        <h2 class="mb-4">Login</h2>
+                        <div class="mb-3">
+                            <label for="login-email" class="form-label">Email:</label>
+                            <input type="text" class="form-control" id="login-email" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="login-password" class="form-label">Password:</label>
+                            <input type="password" class="form-control" id="login-password" name="password" required>
+                        </div>
+                        <input type="hidden" name="action" value="login">
+                        <button type="submit" class="btn btn-primary w-100">Login</button>
+                    </form>
+                </div>
+
+                <!-- Sign Up Form -->
+                <div class="tab-pane fade" id="signup" role="tabpanel" aria-labelledby="signup-tab">
+                    <form method="post" style="max-width: 400px; width: 100%;">
+                        <h2 class="mb-4">Sign Up</h2>
+                        <div class="mb-3">
+                            <label for="signup-name" class="form-label">Name:</label>
+                            <input type="text" class="form-control" id="signup-name" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="signup-email" class="form-label">Email:</label>
+                            <input type="email" class="form-control" id="signup-email" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="signup-password" class="form-label">Password:</label>
+                            <input type="password" class="form-control" id="signup-password" name="password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="signup-password-confirm" class="form-label">Confirm Password:</label>
+                            <input type="password" class="form-control" id="signup-password-confirm"
+                                name="confirm_password" required>
+                        </div>
+                        <input type="hidden" name="action" value="signup">
+                        <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Create a New Post{% endblock %}
+
+{% block content %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for msg in messages %}
+<p>{{ msg }}</p>
+{% endfor %}
+{% endif %}
+{% endwith %}
+<div class="container mt-5">
+    <h2>Create a New Post</h2>
+    <form action="{{ url_for('create_post') }}" method="post" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="post-image" class="form-label">Image File:</label>
+            <input type="file" class="form-control" id="post-image" name="image" accept="image/*" required>
+        </div>
+        <div class="mb-3">
+            <label for="post-caption" class="form-label">Caption:</label>
+            <input type="text" class="form-control" id="post-caption" name="caption" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Create Post</button>
+    </form>
+    <a href="{{ url_for('home') }}" class="btn btn-secondary mt-3">Edit Post</a>
+</div>
+{% endblock %}
