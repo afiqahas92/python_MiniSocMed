@@ -21,7 +21,7 @@ class UserPost(db.Model):
 class CommentPost(db.Model):
     __tablename__ = 'comments'
     comment_id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)  # Ensure this line exists
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey('user_posts.post_id'), nullable=False)
     commentText = db.Column(db.String(255), nullable=False)
-    user = db.relationship('Users', backref='comments') 
+    user = db.relationship('Users', backref='comments')

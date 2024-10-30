@@ -20,10 +20,9 @@ def home():
     if "user_id" in session:
         posts = UserPost.query.all()
         
-        # Load comments for each post
         for post in posts:
-            post.comments = CommentPost.query.filter_by(post_id=post.post_id).all()  # Load comments for each post
-            post.edit_mode = False  # Reset edit mode for the post
+            post.comments = CommentPost.query.filter_by(post_id=post.post_id).all()
+            post.edit_mode = False  
         
         return render_template("Home.html", posts=posts)
     else:
@@ -48,7 +47,7 @@ def login():
             if user and check_password_hash(user.password, user_password):
                 session["user_id"] = user.user_id
                 flash("Login successful!")
-                return redirect(url_for("home"))  # Redirect to home or timeline
+                return redirect(url_for("home"))  
 
             flash("Invalid credentials!")
             return redirect(url_for("login"))
@@ -61,7 +60,7 @@ def login():
 
             if user_password != confirm_password:
                 flash("Passwords do not match!")
-                return redirect(url_for("login"))  # Redirect back to the same page
+                return redirect(url_for("login")) 
 
             existing_user = Users.query.filter_by(email=user_email).first()
             if existing_user:
@@ -73,10 +72,9 @@ def login():
             db.session.commit()
             
             flash("User registered successfully! You can now log in.")
-            return redirect(url_for("login"))  # Redirect to login after registration
+            return redirect(url_for("login")) 
 
-    # Render the login page for GET requests
-    return render_template("login.html")  # Your combined login/signup page
+    return render_template("login.html")  
 
 @app.route("/create_post", methods=["GET", "POST"])
 def create_post():
@@ -102,9 +100,9 @@ def create_post():
         db.session.commit()
 
         flash("Post created successfully!")
-        return redirect(url_for("home"))  # Redirect to home after creating a post
+        return redirect(url_for("home"))
     
-    return render_template("create_post.html")  # Render the post creation form
+    return render_template("create_post.html")
 
 # Create a comment on a post
 @app.route("/posts/<int:post_id>/comments", methods=["POST"])
@@ -154,16 +152,16 @@ def delete_post(post_id):
     return redirect(url_for("home"))
 
 # Edit a comment
-@app.route("/posts/<int:post_id>/comments/<int:comment_id>/toggle_edit", methods=["POST"])
-def toggle_edit_comment(post_id, comment_id):
+@app.route("/posts/<int:post_id>/comments/<int:comment_id>/edit", methods=["POST"])
+def edit_comment(post_id, comment_id):
     comment = CommentPost.query.get_or_404(comment_id)
     if comment.user_id != session.get("user_id"):
         flash("Unauthorized access.")
         return redirect(url_for("home"))
 
-    # Toggle edit mode (this can be a more complex UI change depending on how you want to implement it)
-    comment.edit_mode = not comment.edit_mode
-    db.session.commit()  # Ensure to commit to reflect changes
+    comment.commentText = request.form["comment_text"]
+    db.session.commit()
+    flash("Comment updated successfully!")
     return redirect(url_for("home"))
 
 # Delete a comment
